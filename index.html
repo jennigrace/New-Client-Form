@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social Media Executive — New Client Intake</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f0f4f8;
+    color: #1a202c;
+    min-height: 100vh;
+    padding: 30px 16px 80px;
+  }
+  .page-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .page-header h1 { font-size: 1.9rem; font-weight: 800; color: #0f172a; }
+  .page-header p { color: #64748b; margin-top: 6px; font-size: 0.95rem; }
+  .badge {
+    display: inline-block;
+    background: #ede9fe;
+    color: #6d28d9;
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .container { max-width: 860px; margin: 0 auto; }
+
+  /* SECTION TABS */
+  .section-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 22px;
+    background: #fff;
+    border-radius: 14px;
+    padding: 14px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    border: 1px solid #e2e8f0;
+  }
+  .sec-btn {
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1.5px solid #e2e8f0;
+    background: #f8fafc;
+    color: #475569;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .sec-btn:hover { border-color: #a5b4fc; color: #4338ca; background: #eef2ff; }
+  .sec-btn.active { background: #6366f1; border-color: #6366f1; color: #fff; }
+  .sec-btn.done { border-color: #6ee7b7; color: #065f46; background: #f0fdf4; }
+  .sec-btn.done::after { content: ' ✓'; }
+
+  /* SECTION PANELS */
+  .section-panel { display: none; }
+  .section-panel.active { display: block; }
+
+  /* CARDS */
+  .card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 26px 28px;
+    margin-bottom: 18px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    border: 1px solid #e2e8f0;
+  }
+  .card-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f1f5f9;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .subsection {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 18px 0 10px;
+    padding-top: 14px;
+    border-top: 1px solid #f1f5f9;
+  }
+  .subsection:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+
+  /* FORM ELEMENTS */
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+  .form-grid.three { grid-template-columns: 1fr 1fr 1fr; }
+  .form-grid.single { grid-template-columns: 1fr; }
+  .field { display: flex; flex-direction: column; gap: 5px; }
+  .field.full { grid-column: 1 / -1; }
+  label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  label .opt {
+    font-weight: 400;
+    color: #94a3b8;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.72rem;
+  }
+  input[type="text"], input[type="email"], input[type="tel"], input[type="url"],
+  textarea, select {
+    padding: 9px 12px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #1a202c;
+    background: #f8fafc;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    font-family: inherit;
+    width: 100%;
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
+    background: #fff;
+  }
+  textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
+  select { cursor: pointer; }
+
+  /* RADIO / CHECKBOX PILLS */
+  .pill-group { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 2px; }
+  .pill-group label {
+    display: flex; align-items: center; gap: 5px;
+    text-transform: none; font-weight: 500; font-size: 0.85rem; color: #334155;
+    cursor: pointer; background: #f8fafc; border: 1.5px solid #e2e8f0;
+    border-radius: 7px; padding: 6px 12px; transition: all 0.15s; letter-spacing: 0;
+  }
+  .pill-group input { display: none; }
+  .pill-group label:has(input:checked) {
+    background: #eef2ff; border-color: #6366f1; color: #4338ca; font-weight: 700;
+  }
+
+  /* PLATFORM ROW */
+  .platform-row {
+    display: grid;
+    grid-template-columns: 140px 1fr 1fr 100px;
+    gap: 10px;
+    align-items: end;
+    padding: 10px 0;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .platform-row:last-child { border-bottom: none; }
+  .platform-label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #334155;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding-bottom: 2px;
+  }
+  .platform-label .icon { font-size: 1rem; }
+
+  /* PROGRESS BAR */
+  .progress-bar {
+    height: 4px;
+    background: #e2e8f0;
+    border-radius: 99px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+    border-radius: 99px;
+    transition: width 0.3s ease;
+    width: 11%;
+  }
+
+  /* NAV BUTTONS */
+  .nav-btns {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 8px;
+  }
+  .btn-prev, .btn-next {
+    padding: 12px 26px;
+    border-radius: 10px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: none;
+  }
+  .btn-prev {
+    background: #f1f5f9;
+    color: #475569;
+    border: 1.5px solid #e2e8f0;
+  }
+  .btn-prev:hover { background: #e2e8f0; }
+  .btn-next {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    color: #fff;
+    flex: 1;
+  }
+  .btn-next:hover { opacity: 0.9; transform: translateY(-1px); }
+  .btn-generate {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #059669, #047857);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-top: 8px;
+  }
+  .btn-generate:hover { opacity: 0.92; transform: translateY(-1px); }
+
+  /* OUTPUT */
+  .output-card {
+    background: #0f172a;
+    border-radius: 14px;
+    padding: 24px;
+    margin-top: 24px;
+    display: none;
+  }
+  .output-card.visible { display: block; }
+  .output-label {
+    color: #94a3b8;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .copy-btn {
+    background: #6366f1; color: #fff; border: none;
+    padding: 6px 16px; border-radius: 7px;
+    font-size: 0.82rem; font-weight: 600; cursor: pointer;
+  }
+  .copy-btn:hover { background: #4f46e5; }
+  .copy-btn.copied { background: #059669; }
+  #output-text {
+    color: #e2e8f0;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.8rem;
+    line-height: 1.75;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 520px;
+    overflow-y: auto;
+  }
+
+  .tip-box {
+    background: #f0fdf4;
+    border: 1.5px solid #bbf7d0;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 0.84rem;
+    color: #166534;
+    margin-top: 14px;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 640px) {
+    .form-grid, .form-grid.three { grid-template-columns: 1fr; }
+    .platform-row { grid-template-columns: 1fr 1fr; }
+    .platform-label { grid-column: 1 / -1; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="page-header">
+    <div class="badge">✦ Social Media Executive</div>
+    <h1>New Client Intake Form</h1>
+    <p>Complete all sections, then click <strong>Generate for Claude</strong> to get your ready-to-paste client brief.</p>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+
+  <!-- SECTION NAV -->
+  <div class="section-nav">
+    <button class="sec-btn active" onclick="goTo(0)">1 · Business Info</button>
+    <button class="sec-btn" onclick="goTo(1)">2 · Brand Identity</button>
+    <button class="sec-btn" onclick="goTo(2)">3 · Social Accounts</button>
+    <button class="sec-btn" onclick="goTo(3)">4 · Content & Assets</button>
+    <button class="sec-btn" onclick="goTo(4)">5 · Target Audience</button>
+    <button class="sec-btn" onclick="goTo(5)">6 · Tools & Subscriptions</button>
+    <button class="sec-btn" onclick="goTo(6)">7 · Content Preferences</button>
+    <button class="sec-btn" onclick="goTo(7)">8 · Goals & Logistics</button>
+    <button class="sec-btn" onclick="goTo(8)">9 · Generate ✨</button>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION 1: BUSINESS INFO -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section-panel active" id="sec-0">
+    <div class="card">
+      <div class="card-title">👤 Contact Information</div>
+      <div class="form-grid">
+        <div class="field"><label>Client Full Name</label><input type="text" id="s1_name" placeholder="e.g. Sarah Chen"></div>
+        <div class="field"><label>Business / Brand Name</label><input type="text" id="s1_biz" placeholder="e.g. Sarah Chen Consulting"></div>
+        <div class="field"><label>Email Address</label><input type="email" id="s1_email" placeholder="sarah@sarahchen.com"></div>
+        <div class="field"><label>Phone Number</label><input type="tel" id="s1_phone" placeholder="(305) 555-0100"></div>
+        <div class="field"><label>Website URL</label><input type="url" id="s1_website" placeholder="https://sarahchen.com"></div>
+        <div class="field"><label>Booking / Calendar Link <span class="opt">(optional)</span></label><input type="url" id="s1_booking" placeholder="https://calendly.com/sarahchen"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🏢 Business Overview</div>
+      <div class="form-grid">
+        <div class="field"><label>Industry / Niche</label><input type="text" id="s1_industry" placeholder="e.g. Real estate, fitness coaching, financial advising…"></div>
+        <div class="field"><label>Business Location / Market</label><input type="text" id="s1_location" placeholder="e.g. Miami, FL — serves nationwide"></div>
+        <div class="field"><label>Years in Business</label><input type="text" id="s1_years" placeholder="e.g. 8 years"></div>
+        <div class="field"><label>Team Size</label>
+          <div class="pill-group">
+            <label><input type="radio" name="team" value="Solo (just me)"><span>Solo</span></label>
+            <label><input type="radio" name="team" value="2–5 people"><span>2–5</span></label>
+            <label><input type="radio" name="team" value="6–15 people"><span>6–15</span></label>
+            <label><input type="radio" name="team" value="16+ people"><span>16+</span></label>
+          </div>
+        </div>
+        <div class="field full"><label>Business Description <span class="opt">(what do you do and who do you help?)</span></label><textarea id="s1_desc" placeholder="e.g. I help mid-career professionals pivot into tech careers through 1:1 coaching, online courses, and a private community…"></textarea></div>
+        <div class="field full"><label>Credentials, Awards & Certifications <span class="opt">(optional)</span></label><input type="text" id="s1_creds" placeholder="e.g. CFP, Harvard MBA, Forbes 30 Under 30, Inc. 5000, licensed in FL & TX…"></div>
+        <div class="field full"><label>Languages Spoken <span class="opt">(if relevant)</span></label><input type="text" id="s1_languages" placeholder="e.g. English, Spanish, Mandarin"></div>
+        <div class="field full"><label>Geographic Service Areas</label><input type="text" id="s1_areas" placeholder="e.g. Miami-Dade, Broward, Palm Beach — also serves clients nationally via Zoom"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">💼 Products & Services</div>
+      <div class="form-grid">
+        <div class="field full"><label>Main Offers / Services <span class="opt">(list all)</span></label><textarea id="s1_offers" placeholder="1. 1:1 Coaching (6-month program) — $3,000&#10;2. Online Course: Career Pivot Blueprint — $497&#10;3. Monthly Membership Community — $49/month&#10;4. Resume & LinkedIn Audit — $199"></textarea></div>
+        <div class="field"><label>Price Range of Offers</label><input type="text" id="s1_price" placeholder="e.g. $49/mo – $5,000 one-time"></div>
+        <div class="field"><label>Primary CTA / Sales Goal</label>
+          <div class="pill-group">
+            <label><input type="radio" name="cta" value="Book a discovery call"><span>Book a call</span></label>
+            <label><input type="radio" name="cta" value="DM for more info"><span>DM</span></label>
+            <label><input type="radio" name="cta" value="Buy directly online"><span>Buy online</span></label>
+            <label><input type="radio" name="cta" value="Fill out a form / apply"><span>Form/Apply</span></label>
+          </div>
+        </div>
+        <div class="field full"><label>Current Lead Magnet / Free Offer <span class="opt">(if any)</span></label><input type="text" id="s1_lead_magnet" placeholder="e.g. Free Career Pivot Roadmap PDF at sarahchen.com/free"></div>
+        <div class="field full"><label>Sales Process Overview <span class="opt">(how do leads become clients?)</span></label><textarea id="s1_sales" placeholder="e.g. Lead sees post → DMs or fills out form → books free 30-min call → receives proposal → signs contract + pays deposit"></textarea></div>
+      </div>
+    </div>
+    <div class="nav-btns"><div></div><button class="btn-next" onclick="goTo(1)">Brand Identity →</button></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION 2: BRAND IDENTITY -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section-panel" id="sec-1">
+    <div class="card">
+      <div class="card-title">🎨 Visual Identity</div>
+      <div class="form-grid">
+        <div class="field"><label>Primary Brand Color <span class="opt">(hex code or describe)</span></label><input type="text" id="s2_color1" placeholder="e.g. #2563EB (deep blue)"></div>
+        <div class="field"><label>Secondary Brand Color(s)</label><input type="text" id="s2_color2" placeholder="e.g. #F59E0B (gold), #FFFFFF (white)"></div>
+        <div class="field"><label>Primary Font / Typeface</label><input type="text" id="s2_font" placeholder="e.g. Playfair Display (headers), Inter (body)"></div>
+        <div class="field"><label>Logo Notes <span class="opt">(describe or note file location)</span></label><input type="text" id="s2_logo" placeholder="e.g. Horizontal logo + icon version in Google Drive/Brand Kit"></div>
+        <div class="field full"><label>Overall Visual Style</label>
+          <div class="pill-group">
+            <label><input type="radio" name="visual" value="Minimal & clean"><span>Minimal & clean</span></label>
+            <label><input type="radio" name="visual" value="Bold & high-contrast"><span>Bold & high-contrast</span></label>
+            <label><input type="radio" name="visual" value="Warm & lifestyle-driven"><span>Warm & lifestyle</span></label>
+            <label><input type="radio" name="visual" value="Luxury & polished"><span>Luxury & polished</span></label>
+            <label><input type="radio" name="visual" value="Fun & colorful"><span>Fun & colorful</span></label>
+            <label><input type="radio" name="visual" value="Educational & data-driven"><span>Educational & data</span></label>
+          </div>
+        </div>
+        <div class="field full"><label>Visual Brands / Creators They Admire <span class="opt">(for visual reference)</span></label><input type="text" id="s2_inspo" placeholder="e.g. @marie_forleo, @the.holistic.psychologist — clean, warm, text-forward reels"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🗣️ Brand Voice & Messaging</div>
+      <div class="form-grid">
+        <div class="field full"><label>Brand Voice / Tone</label>
+          <div class="pill-group">
+            <label><input type="radio" name="voice" value="Professional & authoritative"><span>Professional & authoritative</span></label>
+            <label><input type="radio" name="voice" value="Warm & approachable"><span>Warm & approachable</span></label>
+            <label><input type="radio" name="voice" value="Bold & direct"><span>Bold & direct</span></label>
+            <label><input type="radio" name="voice" value="Educational & trustworthy"><span>Educational & trustworthy</span></label>
+            <label><input type="radio" name="voice" value="Fun & witty"><span>Fun & witty</span></label>
+            <label><input type="radio" name="voice" value="Inspirational & motivating"><span>Inspirational & motivating</span></label>
+          </div>
+        </div>
+        <div class="field full"><label>Tagline / Slogan <span class="opt">(if they have one)</span></label><input type="text" id="s2_tagline" placeholder="e.g. 'From burnout to breakthrough.'"></div>
+        <div class="field full"><label>Unique Value Proposition <span class="opt">(what makes them genuinely different?)</span></label><textarea id="s2_uvp" placeholder="e.g. I'm the only career coach who combines corporate HR experience with neuroscience-backed methods. My clients average a $28K salary increase within 6 months."></textarea></div>
+        <div class="field full"><label>Brand Story / Background <span class="opt">(the 'why' behind the business)</span></label><textarea id="s2_story" placeholder="e.g. After 12 years in corporate finance and burning out at 38, I pivoted into coaching and never looked back. I built this business to help others skip the 5-year learning curve I went through."></textarea></div>
+        <div class="field full"><label>Words / Phrases to Always Use</label><input type="text" id="s2_words_yes" placeholder="e.g. 'transformation', 'your next chapter', 'real results', 'no fluff'"></div>
+        <div class="field full"><label>Words / Phrases to Never Use</label><input type="text" id="s2_words_no" placeholder="e.g. 'hustle', 'crush it', 'guru', 'boss babe' — avoid jargon and hype language"></div>
+      </div>
+    </div>
+    <div class="nav-btns"><button class="btn-prev" onclick="goTo(0)">← Back</button><button class="btn-next" onclick="goTo(2)">Social Accounts →</button></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION 3: SOCIAL ACCOUNTS -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section-panel" id="sec-2">
+    <div class="card">
+      <div class="card-title">📱 Social Media Accounts</div>
+      <p style="font-size:0.83rem;color:#64748b;margin-bottom:16px;">Fill in what applies. Leave blank anything they don't use.</p>
+
+      <div class="subsection">Primary Platforms</div>
+
+      <div class="platform-row">
+        <div class="platform-label"><span class="icon">📸</span> Instagram</div>
+        <div class="field"><label>Handle / Username</label><input type="text" id="ig_handle" placeholder="@username"></div>
+        <div class="field"><label>Profile URL</label><input type="url" id="ig_url" placeholder="https://instagram.com/username"></div>
+        <div class="field"><label>Followers</label><input type="text" id="ig_followers" placeholder="e.g. 2,400"></div>
+      </div>
+
+      <div class="platform-row">
+        <div class="platform-label"><span class="icon">📘</span> Facebook</div>
+        <div class="field"><label>Page Name</label><input type="text" id="fb_name" placeholder="e.g. Sarah Chen Consulting"></div>
+        <div class="field"><label>Page URL</label><input type="url" id="fb_url" placeholder="https://facebook.com/sarahchen"></div>
+        <div class="field"><label>Followers / Likes</label><input type="text" id="fb_followers" placeholder="e.g. 1,100"></div>
+      </div>
+
+      <div class="platform-row">
+        <div class="platform-label"><span class="icon">▶️</span> YouTube</div>
+        <div class="field"><label>Channel Name</label><input type="text" id="yt_name" placeholder="e.g. Sarah Chen | Career Coach"></div>
+        <div class="field"><label>Channel URL</label><input type="url" id="yt_url" placeholder="https://youtube.com/@sarahchen"></div>
+        <div class="field"><label>Subscribers</label><input type="text" id="yt_subs" placeholder="e.g. 850"></div>
+      </div>
+
+      <div class="platform-row">
+        <div class="platform-label"><span class="icon">🎵</span> TikTok</div>
+        <div class="field"><label>Handle / Username</label><input type="text" id="tt_handle" placeholder="@username"></div>
+        <div class="field"><label>Profile URL</label><input type="url" id="tt_url" placeholder="https://tiktok.com/@username"></div>
+        <div class="field"><label>Followers</label><input type="text" id="tt_followers" placeholder="e.g. 5,200"></div>
+      </div>
+
+      <div class="subsection">Professional & Other Platforms</div>
+
+      <div class="platform-row">
+        <div class="platform-label"><span class="icon">💼</span> LinkedIn</div>
+        <div class="field"><label>Profile or Page Name</label><input type="text" id="li_name" placeholder="e.g. Sarah Chen (personal) or Sarah Chen Consulting (page)"></div>
+        <div class="field"><label>Profile / Page URL</label><input type="url" id="li_url" placeholder="https://linkedin.com/in/sarahchen"></div>
+        <div class="field"><label>Connections / Followers</label><input type="text" id="li_followers" placeholder="e.g. 3,800"></div>
+      </div>
+
+      <div class="platform-row">
+        <div class="platform-label"><span class="icon">📌</span> Pinterest</div>
+        <div class="field"><label>Profile Name / Handle</label><input type="text" id="pin_handle" placeholder="@username"></div>
+        <div class="field"><label>Profile URL</label><input type="url" id="pin_url" placeholder="https://pinterest.com/username"></div>
+        <div class="field"><label>Followers</label><input type="text" id="pin_followers" placeholder="e.g. 740"></div>
+      </div>
+
+      <div class="platform-row">
+        <div class="platform-label"><span class="icon">𝕏</span> Twitter / X</div>
+        <div class="field"><label>Handle / Username</label><input type="text" id="tw_handle" placeholder="@username"></div>
+        <div class="field"><label>Profile URL</label><input type="url" id="tw_url" placeholder="https://x.com/username"></div>
+        <div class="field"><label>Followers</label><input type="text" id="tw_followers" placeholder="e.g. 620"></div>
+      </div>
+
+      <div class="platform-row">
+        <div class="platform-label"><span class="icon">🧵</span> Threads</div>
+        <div class="field"><label>Handle / Username</label><input type="text" id="th_handle" placeholder="@username"></div>
+        <div class="field"><label>Profile URL</label><input type="url" id="th_url" placeholder="https://threads.net/@username"></div>
+        <div class="field"><label>Followers</label><input type="text" id="th_followers" placeholder="e.g. 300"></div>
+      </div>
+
+      <div class="platform-row">
+        <div class="platform-label"><span class="icon">🗺️</span> Google Business</div>
+        <div class="field"><label>Business Profile Name</label><input type="text" id="gmb_name" placeholder="e.g. Sarah Chen Consulting"></div>
+        <div class="field"><label>Profile URL <span class="opt">(optional)</span></label><input type="url" id="gmb_url" placeholder="https://g.page/sarahchen"></div>
+        <div class="field"><label>Reviews Count</label><input type="text" id="gmb_reviews" placeholder="e.g. 42 reviews, 4.9★"></div>
+      </div>
+
+      <div class="platform-row">
+        <div class="platform-label"><span class="icon">🏘️</span> Nextdoor</div>
+        <div class="field"><label>Profile Name</label><input type="text" id="nd_name" placeholder="e.g. Sarah Chen"></div>
+        <div class="field"><label>Neighborhood / Area</label><input type="text" id="nd_area" placeholder="e.g. Coral Gables, FL"></div>
+        <div class="field"><label>Active?</label>
+          <div class="pill-group">
+            <label><input type="radio" name="nd_active" value="Yes, active"><span>Yes</span></label>
+            <label><input type="radio" name="nd_active" value="No / not set up"><span>No</span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsection">Podcast & Other Channels</div>
+      <div class="form-grid">
+        <div class="field"><label>Podcast Name <span class="opt">(if any)</span></label><input type="text" id="pod_name" placeholder="e.g. The Career Pivot Podcast"></div>
+        <div class="field"><label>Podcast Platform(s)</label><input type="text" id="pod_platform" placeholder="e.g. Spotify, Apple Podcasts, Google Podcasts"></div>
+        <div class="field"><label>Podcast URL</label><input type="url" id="pod_url" placeholder="https://open.spotify.com/show/..."></div>
+        <div class="field"><label>Episodes Published</label><input type="text" id="pod_eps" placeholder="e.g. 48 episodes"></div>
+        <div class="field full"><label>Any Other Platforms / Communities <span class="opt">(Clubhouse, Discord, Substack, Reddit, etc.)</span></label><input type="text" id="other_platforms" placeholder="e.g. Substack newsletter (2,100 subscribers), private Facebook Group (860 members)"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🔑 Account Access & Posting Setup</div>
+      <div class="form-grid">
+        <div class="field full"><label>Who Currently Has Access to the Accounts?</label><input type="text" id="access_who" placeholder="e.g. Client + their VA (Maria) have admin access to all platforms"></div>
+        <div class="field full"><label>How Will Content Be Posted?</label>
+          <div class="pill-group">
+            <label><input type="radio" name="posting" value="Client posts themselves"><span>Client posts themselves</span></label>
+            <label><input type="radio" name="posting" value="We schedule & post on their behalf"><span>We schedule & post</span></label>
+            <label><input type="radio" name="posting" value="VA / team member posts"><span>VA / team member posts</span></label>
+            <label><input type="radio" name="posting" value="Mix — depends on platform"><span>Mix / depends</span></label>
+          </div>
+        </div>
+        <div class="field full"><label>Scheduling Tool Already in Use <span class="opt">(if any)</span></label><input type="text" id="sched_tool" placeholder="e.g. Buffer, Later, Hootsuite, Meta Business Suite, or none yet"></div>
+      </div>
+    </div>
+    <div class="nav-btns"><button class="btn-prev" onclick="goTo(1)">← Back</button><button class="btn-next" onclick="goTo(3)">Content & Assets →</button></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION 4: CONTENT & ASSETS -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section-panel" id="sec-3">
+    <div class="card">
+      <div class="card-title">✍️ Blog & Written Content</div>
+      <div class="form-grid">
+        <div class="field full"><label>Do They Have a Blog?</label>
+          <div class="pill-group">
+            <label><input type="radio" name="blog" value="Yes, active blog"><span>Yes, active</span></label>
+            <label><input type="radio" name="blog" value="Yes, but inactive"><span>Yes, inactive</span></label>
+            <label><input type="radio" name="blog" value="No blog yet"><span>No blog yet</span></label>
+            <label><input type="radio" name="blog" value="Want to start one"><span>Want to start one</span></label>
+          </div>
+        </div>
+        <div class="field"><label>Blog URL <span class="opt">(if applicable)</span></label><input type="url" id="blog_url" placeholder="https://sarahchen.com/blog"></div>
+        <div class="field"><label>Blog Posting Frequency</label><input type="text" id="blog_freq" placeholder="e.g. 2x/month, weekly, rarely"></div>
+        <div class="field full"><label>Blog Platform / CMS</label><input type="text" id="blog_platform" placeholder="e.g. WordPress, Squarespace, Wix, Webflow, Ghost, Showit"></div>
+        <div class="field full"><label>Top Performing Blog Posts <span class="opt">(titles or topics, if known)</span></label><textarea id="blog_top" placeholder="e.g. '5 Signs You're Ready for a Career Change' — gets 800+ views/month from Google"></textarea></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📧 Email & Newsletter</div>
+      <div class="form-grid">
+        <div class="field full"><label>Do They Have an Email List?</label>
+          <div class="pill-group">
+            <label><input type="radio" name="email_list" value="Yes, active newsletter"><span>Yes, active</span></label>
+            <label><input type="radio" name="email_list" value="Yes, list exists but rarely email"><span>List exists, rarely email</span></label>
+            <label><input type="radio" name="email_list" value="No email list yet"><span>No list yet</span></label>
+          </div>
+        </div>
+        <div class="field"><label>Email Platform</label><input type="text" id="email_platform" placeholder="e.g. Mailchimp, Klaviyo, ConvertKit, ActiveCampaign, Flodesk"></div>
+        <div class="field"><label>List Size</label><input type="text" id="email_size" placeholder="e.g. 1,800 subscribers"></div>
+        <div class="field"><label>Send Frequency</label><input type="text" id="email_freq" placeholder="e.g. Weekly, bi-weekly, monthly"></div>
+        <div class="field full"><label>Newsletter Name / Subject Line Style</label><input type="text" id="email_name" placeholder="e.g. 'The Pivot Letter' — sent every Tuesday with career tips + a personal story"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🎥 Video & Media Assets</div>
+      <div class="form-grid">
+        <div class="field full"><label>On-Camera Comfort Level</label>
+          <div class="pill-group">
+            <label><input type="radio" name="camera" value="Avoids camera (1–3)"><span>Avoids camera</span></label>
+            <label><input type="radio" name="camera" value="Getting comfortable (4–6)"><span>Getting comfortable</span></label>
+            <label><input type="radio" name="camera" value="Comfortable on camera (7–8)"><span>Comfortable</span></label>
+            <label><input type="radio" name="camera" value="Loves being on camera (9–10)"><span>Loves being on camera</span></label>
+          </div>
+        </div>
+        <div class="field full"><label>Video Style Preference</label>
+          <div class="pill-group">
+            <label><input type="radio" name="vid_style" value="Talking head to camera"><span>Talking head</span></label>
+            <label><input type="radio" name="vid_style" value="Voiceover with B-roll"><span>Voiceover + B-roll</span></label>
+            <label><input type="radio" name="vid_style" value="Text-on-screen reels (faceless)"><span>Text-on-screen / faceless</span></label>
+            <label><input type="radio" name="vid_style" value="Mix of all styles"><span>Mix of styles</span></label>
+          </div>
+        </div>
+        <div class="field"><label>Video Editing Tool(s) Used</label><input type="text" id="vid_edit" placeholder="e.g. CapCut, iMovie, Descript, Adobe Premiere, outsourced to editor"></div>
+        <div class="field"><label>Photography Style</label><input type="text" id="photo_style" placeholder="e.g. Bright & airy, moody & dark, candid/lifestyle, professional headshots only"></div>
+        <div class="field full"><label>Existing Content Library <span class="opt">(what do they already have?)</span></label><textarea id="content_library" placeholder="e.g. 3 years of IG posts, 12 YT videos, 80+ blog posts, professional headshots from 2024, drone footage of listings, client testimonial videos"></textarea></div>
+        <div class="field full"><label>Where Are Assets Stored?</label><input type="text" id="asset_storage" placeholder="e.g. Google Drive (/Brand Assets), Dropbox, phone camera roll, iCloud"></div>
+      </div>
+    </div>
+    <div class="nav-btns"><button class="btn-prev" onclick="goTo(2)">← Back</button><button class="btn-next" onclick="goTo(4)">Target Audience →</button></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION 5: TARGET AUDIENCE -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section-panel" id="sec-4">
+    <div class="card">
+      <div class="card-title">🎯 Primary Client Persona</div>
+      <div class="form-grid">
+        <div class="field"><label>Persona Name <span class="opt">(give them a name)</span></label><input type="text" id="p1_name" placeholder="e.g. 'Burned-Out Brittany'"></div>
+        <div class="field"><label>Age Range</label><input type="text" id="p1_age" placeholder="e.g. 32–45"></div>
+        <div class="field"><label>Gender <span class="opt">(if relevant)</span></label><input type="text" id="p1_gender" placeholder="e.g. Primarily women, all genders, men 35+"></div>
+        <div class="field"><label>Income / Budget Range</label><input type="text" id="p1_income" placeholder="e.g. $80K–$150K household income"></div>
+        <div class="field full"><label>Job / Life Situation</label><input type="text" id="p1_job" placeholder="e.g. Mid-career professional, 10+ years in corporate, feeling stuck, no time to figure out next steps alone"></div>
+        <div class="field full"><label>Biggest Pain Points / Frustrations</label><textarea id="p1_pain" placeholder="e.g. Feels trapped in a career they hate but scared to take the leap. Tried to pivot before and failed. Doesn't know how to market themselves. Imposter syndrome."></textarea></div>
+        <div class="field full"><label>Goals & Desires</label><textarea id="p1_goals" placeholder="e.g. Wants a career that feels meaningful, pays well, and doesn't burn them out. Dreams of more flexibility and doing work they're proud of."></textarea></div>
+        <div class="field full"><label>Biggest Objections / Hesitations to Buying</label><textarea id="p1_objections" placeholder="e.g. 'I can't afford it right now.' 'I don't have time.' 'What if it doesn't work for me?' 'I've tried coaches before and wasted money.'"></textarea></div>
+        <div class="field full"><label>Where They Hang Out Online</label><input type="text" id="p1_online" placeholder="e.g. LinkedIn, Instagram, listens to podcasts while commuting, in Facebook Groups for career changers, reads Medium articles"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🎯 Secondary Client Persona <span class="opt" style="font-size:0.8rem;">(optional)</span></div>
+      <div class="form-grid">
+        <div class="field"><label>Persona Name</label><input type="text" id="p2_name" placeholder="e.g. 'Fresh Grad Frankie'"></div>
+        <div class="field"><label>Age Range</label><input type="text" id="p2_age" placeholder="e.g. 22–28"></div>
+        <div class="field full"><label>Brief Description</label><textarea id="p2_desc" placeholder="e.g. Recent grads or early-career professionals who want to fast-track their growth and avoid wasting years in the wrong field. Less budget but high motivation."></textarea></div>
+        <div class="field full"><label>Key Pain Points & Where They Hang Out Online</label><textarea id="p2_pain" placeholder="e.g. Overwhelmed by options, comparing themselves on LinkedIn. Hang out on TikTok, Reddit career communities, and Instagram."></textarea></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🏆 Competitor Landscape</div>
+      <div class="form-grid">
+        <div class="field full"><label>Top 3–5 Competitors <span class="opt">(names, handles, or URLs)</span></label><textarea id="competitors" placeholder="@competitorA — strong on LinkedIn, very polished content&#10;@competitorB — huge YouTube following, educational focus&#10;CompetitorC.com — runs big paid ads, aggressive lead gen"></textarea></div>
+        <div class="field full"><label>What Do Competitors Do Well? <span class="opt">(learn from them)</span></label><textarea id="comp_good" placeholder="e.g. CompetitorA has great storytelling in their reels. CompetitorB's YouTube SEO is excellent."></textarea></div>
+        <div class="field full"><label>Where Are the Gaps? <span class="opt">(your positioning opportunity)</span></label><textarea id="comp_gaps" placeholder="e.g. Nobody in this space is talking directly to people over 40. Nobody is sharing real failure stories. The content is too polished and not relatable."></textarea></div>
+      </div>
+    </div>
+    <div class="nav-btns"><button class="btn-prev" onclick="goTo(3)">← Back</button><button class="btn-next" onclick="goTo(5)">Tools & Subscriptions →</button></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION 6: TOOLS & SUBSCRIPTIONS -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section-panel" id="sec-5">
+    <div class="card">
+      <div class="card-title">🛠️ Current Tech Stack & Subscriptions</div>
+      <p style="font-size:0.83rem;color:#64748b;margin-bottom:16px;">List what they're already paying for or using — helps avoid duplicate tools and identify gaps.</p>
+      <div class="form-grid">
+        <div class="field"><label>CRM / Lead Management</label><input type="text" id="tool_crm" placeholder="e.g. HubSpot, Follow Up Boss, Salesforce, Notion, none"></div>
+        <div class="field"><label>Email Marketing Platform</label><input type="text" id="tool_email" placeholder="e.g. Mailchimp, Klaviyo, ConvertKit, Flodesk, ActiveCampaign"></div>
+        <div class="field"><label>Social Scheduling Tool</label><input type="text" id="tool_sched" placeholder="e.g. Buffer, Later, Hootsuite, Meta Business Suite, Sprout Social, none"></div>
+        <div class="field"><label>Graphic Design Tool</label><input type="text" id="tool_design" placeholder="e.g. Canva Pro, Adobe Express, Figma, Adobe Photoshop"></div>
+        <div class="field"><label>Video Editing Tool</label><input type="text" id="tool_video" placeholder="e.g. CapCut, Descript, iMovie, Adobe Premiere, Final Cut Pro, outsourced"></div>
+        <div class="field"><label>Video Recording / Streaming</label><input type="text" id="tool_record" placeholder="e.g. Zoom, Riverside.fm, StreamYard, Loom, phone camera"></div>
+        <div class="field"><label>Website / Landing Page Platform</label><input type="text" id="tool_web" placeholder="e.g. WordPress, Squarespace, Wix, Webflow, Kajabi, Showit"></div>
+        <div class="field"><label>Course / Membership Platform</label><input type="text" id="tool_course" placeholder="e.g. Kajabi, Teachable, Thinkific, Circle, Skool, Podia, none"></div>
+        <div class="field"><label>Booking / Scheduling Tool</label><input type="text" id="tool_booking" placeholder="e.g. Calendly, Acuity, Cal.com, HoneyBook, none"></div>
+        <div class="field"><label>Payment Processing</label><input type="text" id="tool_payment" placeholder="e.g. Stripe, PayPal, Square, HoneyBook, ThriveCart"></div>
+        <div class="field"><label>Project Management</label><input type="text" id="tool_pm" placeholder="e.g. Notion, Asana, Trello, Monday.com, ClickUp, none"></div>
+        <div class="field"><label>AI Tools Currently Using</label><input type="text" id="tool_ai" placeholder="e.g. ChatGPT Plus, Claude, Jasper, Midjourney, none"></div>
+        <div class="field"><label>DM Automation Tool</label><input type="text" id="tool_dm" placeholder="e.g. ManyChat, MobileMonkey, none"></div>
+        <div class="field"><label>YT SEO Tool</label><input type="text" id="tool_yt_seo" placeholder="e.g. TubeBuddy, VidIQ, none"></div>
+        <div class="field full"><label>Any Other Subscriptions / Tools Worth Noting</label><textarea id="tool_other" placeholder="e.g. Adobe Creative Cloud ($55/mo), Dropbox Business ($20/mo), Zoom Pro ($15/mo), Rev.com for captions"></textarea></div>
+        <div class="field"><label>Approximate Total Monthly Tool Spend</label><input type="text" id="tool_spend" placeholder="e.g. ~$180/month on tools"></div>
+        <div class="field"><label>Monthly Social Media / Ad Budget</label><input type="text" id="ad_budget" placeholder="e.g. $0 organic only / $300/mo on FB & IG ads"></div>
+      </div>
+    </div>
+    <div class="nav-btns"><button class="btn-prev" onclick="goTo(4)">← Back</button><button class="btn-next" onclick="goTo(6)">Content Preferences →</button></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION 7: CONTENT PREFERENCES -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section-panel" id="sec-6">
+    <div class="card">
+      <div class="card-title">💡 Content Likes & Dislikes</div>
+      <div class="form-grid">
+        <div class="field full"><label>Topics They Love Talking About</label><textarea id="topics_love" placeholder="e.g. Behind-the-scenes of their process, debunking myths in their industry, client transformations, personal stories of failure and recovery, market trends, local community"></textarea></div>
+        <div class="field full"><label>Topics They Want to Avoid</label><textarea id="topics_avoid" placeholder="e.g. Politics, religion, overly personal family content, competitor callouts, anything that feels 'salesy' or pushy"></textarea></div>
+        <div class="field full"><label>Content Formats They Enjoy Creating</label>
+          <div class="pill-group">
+            <label><input type="checkbox" name="formats" value="Short Reels / TikToks"><span>Short Reels</span></label>
+            <label><input type="checkbox" name="formats" value="Long-form YouTube videos"><span>Long-form YouTube</span></label>
+            <label><input type="checkbox" name="formats" value="Carousels / Slide posts"><span>Carousels</span></label>
+            <label><input type="checkbox" name="formats" value="Live videos / Q&As"><span>Lives / Q&As</span></label>
+            <label><input type="checkbox" name="formats" value="Written posts / captions"><span>Written posts</span></label>
+            <label><input type="checkbox" name="formats" value="Stories"><span>Stories</span></label>
+            <label><input type="checkbox" name="formats" value="Podcasting"><span>Podcasting</span></label>
+            <label><input type="checkbox" name="formats" value="Blogging / articles"><span>Blogging</span></label>
+          </div>
+        </div>
+        <div class="field full"><label>Content Formats They Dislike or Refuse</label><input type="text" id="formats_no" placeholder="e.g. Won't do Lives, uncomfortable with dancing trends, doesn't want to share personal relationship content"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📊 Past Content Performance</div>
+      <div class="form-grid">
+        <div class="field full"><label>Content That Has Performed Best <span class="opt">(posts, videos, or formats that got the most engagement or leads)</span></label><textarea id="content_wins" placeholder="e.g. A reel about 'mistakes I made in my first year of business' went viral with 80K views. Testimonial carousels always get saved and shared. Market update posts drive the most DMs."></textarea></div>
+        <div class="field full"><label>Content That Has Flopped <span class="opt">(what they've tried that didn't work)</span></label><textarea id="content_flops" placeholder="e.g. Product-only posts get no engagement. Polished, scripted videos feel inauthentic and underperform. Long text-only Facebook posts get no reach."></textarea></div>
+        <div class="field full"><label>Accounts / Creators They Admire <span class="opt">(for content style inspiration — any industry)</span></label><textarea id="inspo_accounts" placeholder="e.g. @garyvee for raw/unfiltered content, @alexhormozi for value-dense short clips, @jenniferallwood for personal storytelling, @creativebizhive for carousel design"></textarea></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📋 Content Approval Process</div>
+      <div class="form-grid">
+        <div class="field full"><label>Does Content Need Approval Before Posting?</label>
+          <div class="pill-group">
+            <label><input type="radio" name="approval" value="Yes — client approves everything before it goes live"><span>Yes, approve everything</span></label>
+            <label><input type="radio" name="approval" value="Yes — spot-check new formats, then auto-post"><span>Spot-check new formats only</span></label>
+            <label><input type="radio" name="approval" value="No — post freely once strategy is agreed on"><span>No approval needed</span></label>
+          </div>
+        </div>
+        <div class="field full"><label>Approval Lead Time Needed</label><input type="text" id="approval_time" placeholder="e.g. 48 hours before scheduled publish time, or same-day for Stories"></div>
+        <div class="field full"><label>Any Legal / Compliance Requirements? <span class="opt">(industry disclaimers, brand guidelines, brokerage rules, etc.)</span></label><textarea id="compliance" placeholder="e.g. Must include 'Not financial advice' disclaimer. Licensed by XYZ Brokerage — must include brokerage logo on all real estate ads. Cannot make specific income claims."></textarea></div>
+      </div>
+    </div>
+    <div class="nav-btns"><button class="btn-prev" onclick="goTo(5)">← Back</button><button class="btn-next" onclick="goTo(7)">Goals & Logistics →</button></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION 8: GOALS & LOGISTICS -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section-panel" id="sec-7">
+    <div class="card">
+      <div class="card-title">🚀 Campaign Goals</div>
+      <div class="form-grid">
+        <div class="field full"><label>Primary Social Media Goal</label>
+          <div class="pill-group">
+            <label><input type="radio" name="goal" value="Generate leads (DMs, calls, form fills)"><span>Generate leads</span></label>
+            <label><input type="radio" name="goal" value="Build authority & trust / grow audience"><span>Build authority & grow audience</span></label>
+            <label><input type="radio" name="goal" value="Drive direct sales / e-commerce"><span>Drive direct sales</span></label>
+            <label><input type="radio" name="goal" value="Grow to monetize (brand deals, speaking, etc.)"><span>Grow to monetize later</span></label>
+          </div>
+        </div>
+        <div class="field"><label>Monthly Lead Goal</label><input type="text" id="goal_leads" placeholder="e.g. 15 qualified leads/month"></div>
+        <div class="field"><label>Follower Growth Goal</label><input type="text" id="goal_followers" placeholder="e.g. 500 new IG followers/month, 10K by end of year"></div>
+        <div class="field"><label>Revenue Goal from Social</label><input type="text" id="goal_revenue" placeholder="e.g. $8,000/month in closed deals attributable to social media"></div>
+        <div class="field full"><label>Timeline / Campaign Start Date</label><input type="text" id="start_date" placeholder="e.g. March 1, 2026 — first 90 days focused on building audience and content rhythm"></div>
+        <div class="field full"><label>Definition of Success at 90 Days</label><textarea id="success_90" placeholder="e.g. 3x follower growth on IG, 5+ qualified leads per month from social, first YouTube video at 1K+ views, consistent weekly posting rhythm established"></textarea></div>
+        <div class="field full"><label>Definition of Success at 12 Months</label><textarea id="success_12" placeholder="e.g. 10K+ IG followers, social media generates 30%+ of monthly revenue, YouTube channel at 1K subscribers, recognizable brand in their local market"></textarea></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">⏱️ Capacity & Logistics</div>
+      <div class="form-grid">
+        <div class="field"><label>Hours Client Can Spend on Content / Week</label><input type="text" id="hours_week" placeholder="e.g. 3–5 hours/week, or 1 full batch day/month"></div>
+        <div class="field"><label>Best Days for Content Creation</label><input type="text" id="best_days" placeholder="e.g. Tuesday afternoons, Sunday mornings"></div>
+        <div class="field full"><label>Point of Contact for This Account</label><input type="text" id="poc" placeholder="e.g. Client directly / VA Maria (maria@sarahchen.com) / Office manager"></div>
+        <div class="field full"><label>Preferred Communication Method</label>
+          <div class="pill-group">
+            <label><input type="radio" name="comms" value="Email"><span>Email</span></label>
+            <label><input type="radio" name="comms" value="Text / iMessage"><span>Text</span></label>
+            <label><input type="radio" name="comms" value="WhatsApp"><span>WhatsApp</span></label>
+            <label><input type="radio" name="comms" value="Slack"><span>Slack</span></label>
+            <label><input type="radio" name="comms" value="Voxer"><span>Voxer</span></label>
+            <label><input type="radio" name="comms" value="Weekly Zoom call"><span>Weekly Zoom</span></label>
+          </div>
+        </div>
+        <div class="field full"><label>Meeting / Check-in Cadence</label>
+          <div class="pill-group">
+            <label><input type="radio" name="cadence" value="Weekly 30-min check-in"><span>Weekly 30 min</span></label>
+            <label><input type="radio" name="cadence" value="Bi-weekly 45-min strategy call"><span>Bi-weekly</span></label>
+            <label><input type="radio" name="cadence" value="Monthly 60-min review call"><span>Monthly</span></label>
+            <label><input type="radio" name="cadence" value="Async only — no regular calls"><span>Async only</span></label>
+          </div>
+        </div>
+        <div class="field full"><label>Anything Else Claude Should Know About This Client?</label><textarea id="extra_notes" placeholder="e.g. Client is extremely private and will not share personal family content. They're in the middle of a rebrand. They have a big product launch planned for June. They're open to paid ads once organic is working."></textarea></div>
+        <div class="field full"><label>What Do You Want Claude to Focus on This Session?</label><textarea id="session_goal" placeholder="e.g. Build the full Q2 content strategy, write the first month's calendar, suggest 3 lead generation campaigns, and write 5 reel scripts for launch week"></textarea></div>
+      </div>
+    </div>
+    <div class="nav-btns"><button class="btn-prev" onclick="goTo(6)">← Back</button><button class="btn-next" onclick="goTo(8)">Generate ✨ →</button></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION 9: GENERATE -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section-panel" id="sec-8">
+    <div class="card" style="text-align:center;padding:36px;">
+      <div style="font-size:2.5rem;margin-bottom:12px;">✨</div>
+      <h2 style="font-size:1.3rem;font-weight:800;color:#0f172a;margin-bottom:8px;">Ready to Generate Your Client Brief</h2>
+      <p style="color:#64748b;font-size:0.9rem;margin-bottom:24px;">Click the button below to compile everything into a perfectly formatted brief you can paste directly into your Claude Social Media Executive project.</p>
+      <button class="btn-generate" onclick="generateOutput()">✨ Generate Client Brief for Claude</button>
+    </div>
+
+    <div class="output-card" id="output-card">
+      <div class="output-label">
+        <span>📋 Ready to paste into Claude</span>
+        <button class="copy-btn" id="copy-btn" onclick="copyOutput()">Copy All</button>
+      </div>
+      <pre id="output-text"></pre>
+    </div>
+
+    <div class="tip-box" style="margin-top:16px;">
+      <strong>Next step:</strong> Open your <strong>Social Media Executive Planner</strong> Claude Project → paste this brief → then use any command from the Commands Reference (e.g. <code>@strategy overview</code> or <code>@calendar monthly March</code>).
+    </div>
+
+    <div class="nav-btns" style="margin-top:16px;"><button class="btn-prev" onclick="goTo(7)">← Back to Edit</button><div></div></div>
+  </div>
+
+</div><!-- end container -->
+
+<script>
+const TOTAL = 9;
+let current = 0;
+
+function goTo(n) {
+  document.querySelectorAll('.section-panel').forEach((p,i) => p.classList.toggle('active', i === n));
+  document.querySelectorAll('.sec-btn').forEach((b,i) => b.classList.toggle('active', i === n));
+  current = n;
+  const pct = Math.round(((n) / (TOTAL - 1)) * 100);
+  document.getElementById('progress-fill').style.width = Math.max(pct, 5) + '%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function v(id) { const e = document.getElementById(id); return e ? e.value.trim() : ''; }
+function r(name) { const c = document.querySelector(`input[name="${name}"]:checked`); return c ? c.value : ''; }
+function checks(name) {
+  return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(c => c.value).join(', ') || '';
+}
+function row(label, value) { return value ? `${label.padEnd(32)} ${value}\n` : ''; }
+function section(title) { return `\n▌ ${title}\n${'─'.repeat(50)}\n`; }
+
+function generateOutput() {
+  let out = '';
+  out += '━'.repeat(54) + '\n';
+  out += 'NEW CLIENT BRIEF — SOCIAL MEDIA EXECUTIVE\n';
+  out += '━'.repeat(54) + '\n';
+
+  // S1
+  out += section('CONTACT & BUSINESS INFO');
+  out += row('Client Name:', v('s1_name'));
+  out += row('Business / Brand Name:', v('s1_biz'));
+  out += row('Email:', v('s1_email'));
+  out += row('Phone:', v('s1_phone'));
+  out += row('Website:', v('s1_website'));
+  out += row('Booking Link:', v('s1_booking'));
+  out += row('Industry / Niche:', v('s1_industry'));
+  out += row('Location / Market:', v('s1_location'));
+  out += row('Years in Business:', v('s1_years'));
+  out += row('Team Size:', r('team'));
+  out += row('Credentials / Awards:', v('s1_creds'));
+  out += row('Languages:', v('s1_languages'));
+  out += row('Service Areas:', v('s1_areas'));
+  if (v('s1_desc')) out += `Business Description:\n  ${v('s1_desc').replace(/\n/g,'\n  ')}\n`;
+  if (v('s1_offers')) out += `Offers / Services:\n  ${v('s1_offers').replace(/\n/g,'\n  ')}\n`;
+  out += row('Price Range:', v('s1_price'));
+  out += row('Primary CTA Goal:', r('cta'));
+  out += row('Lead Magnet / Free Offer:', v('s1_lead_magnet'));
+  if (v('s1_sales')) out += `Sales Process:\n  ${v('s1_sales').replace(/\n/g,'\n  ')}\n`;
+
+  // S2
+  out += section('BRAND IDENTITY');
+  out += row('Primary Brand Color:', v('s2_color1'));
+  out += row('Secondary Brand Color(s):', v('s2_color2'));
+  out += row('Font / Typeface:', v('s2_font'));
+  out += row('Logo Notes:', v('s2_logo'));
+  out += row('Visual Style:', r('visual'));
+  out += row('Visual Inspiration Accounts:', v('s2_inspo'));
+  out += row('Brand Voice / Tone:', r('voice'));
+  out += row('Tagline / Slogan:', v('s2_tagline'));
+  if (v('s2_uvp')) out += `Unique Value Proposition:\n  ${v('s2_uvp').replace(/\n/g,'\n  ')}\n`;
+  if (v('s2_story')) out += `Brand Story / Background:\n  ${v('s2_story').replace(/\n/g,'\n  ')}\n`;
+  out += row('Words / Phrases to USE:', v('s2_words_yes'));
+  out += row('Words / Phrases to AVOID:', v('s2_words_no'));
+
+  // S3
+  out += section('SOCIAL MEDIA ACCOUNTS');
+  const platforms = [
+    ['Instagram', v('ig_handle'), v('ig_url'), v('ig_followers')],
+    ['Facebook', v('fb_name'), v('fb_url'), v('fb_followers')],
+    ['YouTube', v('yt_name'), v('yt_url'), v('yt_subs')],
+    ['TikTok', v('tt_handle'), v('tt_url'), v('tt_followers')],
+    ['LinkedIn', v('li_name'), v('li_url'), v('li_followers')],
+    ['Pinterest', v('pin_handle'), v('pin_url'), v('pin_followers')],
+    ['Twitter / X', v('tw_handle'), v('tw_url'), v('tw_followers')],
+    ['Threads', v('th_handle'), v('th_url'), v('th_followers')],
+    ['Google Business', v('gmb_name'), v('gmb_url'), v('gmb_reviews')],
+  ];
+  platforms.forEach(([name, handle, url, count]) => {
+    if (handle || url || count) {
+      out += `${name}:\n`;
+      if (handle) out += `  Handle/Name: ${handle}\n`;
+      if (url) out += `  URL: ${url}\n`;
+      if (count) out += `  Followers/Subscribers: ${count}\n`;
+    }
+  });
+  if (v('nd_name') || r('nd_active')) out += `Nextdoor: ${v('nd_name')} | ${v('nd_area')} | Active: ${r('nd_active')}\n`;
+  if (v('pod_name')) out += `Podcast: ${v('pod_name')} | ${v('pod_platform')} | ${v('pod_url')} | ${v('pod_eps')}\n`;
+  if (v('other_platforms')) out += `Other Platforms:\n  ${v('other_platforms')}\n`;
+  out += row('Who Has Account Access:', v('access_who'));
+  out += row('Content Posting Setup:', r('posting'));
+  out += row('Scheduling Tool in Use:', v('sched_tool'));
+
+  // S4
+  out += section('EXISTING CONTENT & ASSETS');
+  out += row('Blog Status:', r('blog'));
+  out += row('Blog URL:', v('blog_url'));
+  out += row('Blog Posting Frequency:', v('blog_freq'));
+  out += row('Blog Platform / CMS:', v('blog_platform'));
+  if (v('blog_top')) out += `Top Blog Posts:\n  ${v('blog_top').replace(/\n/g,'\n  ')}\n`;
+  out += row('Email List Status:', r('email_list'));
+  out += row('Email Platform:', v('email_platform'));
+  out += row('Email List Size:', v('email_size'));
+  out += row('Email Send Frequency:', v('email_freq'));
+  out += row('Newsletter Name / Style:', v('email_name'));
+  out += row('On-Camera Comfort:', r('camera'));
+  out += row('Video Style Preference:', r('vid_style'));
+  out += row('Video Editing Tool:', v('vid_edit'));
+  out += row('Photography Style:', v('photo_style'));
+  if (v('content_library')) out += `Existing Content Library:\n  ${v('content_library').replace(/\n/g,'\n  ')}\n`;
+  out += row('Asset Storage Location:', v('asset_storage'));
+
+  // S5
+  out += section('TARGET AUDIENCE');
+  out += `Primary Persona: ${v('p1_name')}\n`;
+  out += row('  Age Range:', v('p1_age'));
+  out += row('  Gender:', v('p1_gender'));
+  out += row('  Income Range:', v('p1_income'));
+  out += row('  Job / Life Situation:', v('p1_job'));
+  if (v('p1_pain')) out += `  Pain Points:\n    ${v('p1_pain').replace(/\n/g,'\n    ')}\n`;
+  if (v('p1_goals')) out += `  Goals & Desires:\n    ${v('p1_goals').replace(/\n/g,'\n    ')}\n`;
+  if (v('p1_objections')) out += `  Objections to Buying:\n    ${v('p1_objections').replace(/\n/g,'\n    ')}\n`;
+  out += row('  Where They Hang Out Online:', v('p1_online'));
+  if (v('p2_name')) {
+    out += `\nSecondary Persona: ${v('p2_name')}\n`;
+    out += row('  Age Range:', v('p2_age'));
+    if (v('p2_desc')) out += `  Description:\n    ${v('p2_desc').replace(/\n/g,'\n    ')}\n`;
+    if (v('p2_pain')) out += `  Pain Points & Online Habits:\n    ${v('p2_pain').replace(/\n/g,'\n    ')}\n`;
+  }
+  if (v('competitors')) out += `\nCompetitors:\n  ${v('competitors').replace(/\n/g,'\n  ')}\n`;
+  if (v('comp_good')) out += `What Competitors Do Well:\n  ${v('comp_good').replace(/\n/g,'\n  ')}\n`;
+  if (v('comp_gaps')) out += `Competitive Gaps / Opportunity:\n  ${v('comp_gaps').replace(/\n/g,'\n  ')}\n`;
+
+  // S6
+  out += section('TOOLS & SUBSCRIPTIONS');
+  const tools = [
+    ['CRM:', v('tool_crm')], ['Email Platform:', v('tool_email')],
+    ['Social Scheduling:', v('tool_sched')], ['Graphic Design:', v('tool_design')],
+    ['Video Editing:', v('tool_video')], ['Video Recording:', v('tool_record')],
+    ['Website Platform:', v('tool_web')], ['Course / Membership:', v('tool_course')],
+    ['Booking Tool:', v('tool_booking')], ['Payment Processing:', v('tool_payment')],
+    ['Project Management:', v('tool_pm')], ['AI Tools:', v('tool_ai')],
+    ['DM Automation:', v('tool_dm')], ['YouTube SEO:', v('tool_yt_seo')],
+  ];
+  tools.forEach(([label, val]) => { if (val) out += row(label, val); });
+  if (v('tool_other')) out += `Other Tools:\n  ${v('tool_other')}\n`;
+  out += row('Monthly Tool Spend:', v('tool_spend'));
+  out += row('Monthly Ad / Social Budget:', v('ad_budget'));
+
+  // S7
+  out += section('CONTENT PREFERENCES');
+  if (v('topics_love')) out += `Topics They Love:\n  ${v('topics_love').replace(/\n/g,'\n  ')}\n`;
+  if (v('topics_avoid')) out += `Topics to AVOID:\n  ${v('topics_avoid').replace(/\n/g,'\n  ')}\n`;
+  const fmts = checks('formats');
+  if (fmts) out += `Preferred Content Formats: ${fmts}\n`;
+  out += row('Formats to Avoid:', v('formats_no'));
+  if (v('content_wins')) out += `Best Performing Content:\n  ${v('content_wins').replace(/\n/g,'\n  ')}\n`;
+  if (v('content_flops')) out += `Content That Has Flopped:\n  ${v('content_flops').replace(/\n/g,'\n  ')}\n`;
+  if (v('inspo_accounts')) out += `Inspiration Accounts:\n  ${v('inspo_accounts').replace(/\n/g,'\n  ')}\n`;
+  out += row('Approval Required:', r('approval'));
+  out += row('Approval Lead Time:', v('approval_time'));
+  if (v('compliance')) out += `Legal / Compliance Notes:\n  ${v('compliance').replace(/\n/g,'\n  ')}\n`;
+
+  // S8
+  out += section('GOALS & LOGISTICS');
+  out += row('Primary Social Media Goal:', r('goal'));
+  out += row('Monthly Lead Goal:', v('goal_leads'));
+  out += row('Follower Growth Goal:', v('goal_followers'));
+  out += row('Revenue Goal from Social:', v('goal_revenue'));
+  out += row('Campaign Start Date:', v('start_date'));
+  if (v('success_90')) out += `Success at 90 Days:\n  ${v('success_90').replace(/\n/g,'\n  ')}\n`;
+  if (v('success_12')) out += `Success at 12 Months:\n  ${v('success_12').replace(/\n/g,'\n  ')}\n`;
+  out += row('Hours for Content / Week:', v('hours_week'));
+  out += row('Best Days for Content Creation:', v('best_days'));
+  out += row('Point of Contact:', v('poc'));
+  out += row('Preferred Communication:', r('comms'));
+  out += row('Meeting Cadence:', r('cadence'));
+  if (v('extra_notes')) out += `Additional Notes:\n  ${v('extra_notes').replace(/\n/g,'\n  ')}\n`;
+
+  if (v('session_goal')) {
+    out += section('SESSION GOAL FOR CLAUDE');
+    out += v('session_goal') + '\n';
+  }
+
+  out += '\n' + '━'.repeat(54) + '\n';
+  out += 'Please act as my Social Media Executive. Use everything\n';
+  out += 'above to guide your strategy, content, and advice.\n';
+  out += '━'.repeat(54);
+
+  document.getElementById('output-text').textContent = out;
+  const card = document.getElementById('output-card');
+  card.classList.add('visible');
+  card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function copyOutput() {
+  const text = document.getElementById('output-text').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy All'; btn.classList.remove('copied'); }, 2500);
+  });
+}
+</script>
+</body>
+</html>
