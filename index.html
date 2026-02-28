@@ -784,7 +784,8 @@
       <div style="font-size:2.5rem;margin-bottom:12px;">✨</div>
       <h2 style="font-size:1.3rem;font-weight:800;color:#0f172a;margin-bottom:8px;">Ready to Generate Your Client Brief</h2>
       <p style="color:#64748b;font-size:0.9rem;margin-bottom:24px;">Click the button below to compile everything into a perfectly formatted brief you can paste directly into your Claude Social Media Executive project.</p>
-      <button class="btn-generate" onclick="generateOutput()">✨ Generate Client Brief for Claude</button>
+      <button class="btn-generate" onclick="generateOutput()">✨ Generate + Save to Google Sheet</button>
+      <div id="save-status" style="margin-top:12px;font-size:0.88rem;font-weight:600;min-height:22px;"></div>
     </div>
 
     <div class="output-card" id="output-card">
@@ -996,6 +997,9 @@ function generateOutput() {
   const card = document.getElementById('output-card');
   card.classList.add('visible');
   card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // Save to Google Sheet
+  saveToSheet(collectSheetData());
 }
 
 function copyOutput() {
@@ -1006,6 +1010,164 @@ function copyOutput() {
     btn.classList.add('copied');
     setTimeout(() => { btn.textContent = 'Copy All'; btn.classList.remove('copied'); }, 2500);
   });
+}
+
+// ── Google Sheets Integration ──────────────────────────
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzEsPcwxMNns7HLw6v1lWdgH14Sm8okzOI6YO_O6cNoaRxs2aew7-yK8jLhfrb29OE/exec';
+
+function collectSheetData() {
+  return {
+    'Submitted At':        new Date().toLocaleString(),
+    'Client Name':         v('s1_name'),
+    'Business Name':       v('s1_biz'),
+    'Email':               v('s1_email'),
+    'Phone':               v('s1_phone'),
+    'Website':             v('s1_website'),
+    'Booking Link':        v('s1_booking'),
+    'Industry / Niche':    v('s1_industry'),
+    'Location / Market':   v('s1_location'),
+    'Years in Business':   v('s1_years'),
+    'Team Size':           r('team'),
+    'Credentials':         v('s1_creds'),
+    'Languages':           v('s1_languages'),
+    'Service Areas':       v('s1_areas'),
+    'Business Description':v('s1_desc'),
+    'Offers / Services':   v('s1_offers'),
+    'Price Range':         v('s1_price'),
+    'Primary CTA Goal':    r('cta'),
+    'Lead Magnet':         v('s1_lead_magnet'),
+    'Sales Process':       v('s1_sales'),
+    'Primary Brand Color': v('s2_color1'),
+    'Secondary Colors':    v('s2_color2'),
+    'Font':                v('s2_font'),
+    'Logo Notes':          v('s2_logo'),
+    'Visual Style':        r('visual'),
+    'Visual Inspiration':  v('s2_inspo'),
+    'Brand Voice':         r('voice'),
+    'Tagline':             v('s2_tagline'),
+    'UVP':                 v('s2_uvp'),
+    'Brand Story':         v('s2_story'),
+    'Words to Use':        v('s2_words_yes'),
+    'Words to Avoid':      v('s2_words_no'),
+    'IG Handle':           v('ig_handle'),
+    'IG URL':              v('ig_url'),
+    'IG Followers':        v('ig_followers'),
+    'FB Page Name':        v('fb_name'),
+    'FB URL':              v('fb_url'),
+    'FB Followers':        v('fb_followers'),
+    'YT Channel Name':     v('yt_name'),
+    'YT URL':              v('yt_url'),
+    'YT Subscribers':      v('yt_subs'),
+    'TikTok Handle':       v('tt_handle'),
+    'TikTok URL':          v('tt_url'),
+    'TikTok Followers':    v('tt_followers'),
+    'LinkedIn':            v('li_name'),
+    'LinkedIn URL':        v('li_url'),
+    'LinkedIn Followers':  v('li_followers'),
+    'Pinterest':           v('pin_handle'),
+    'Twitter/X':           v('tw_handle'),
+    'Threads':             v('th_handle'),
+    'Google Business':     v('gmb_name'),
+    'GMB Reviews':         v('gmb_reviews'),
+    'Nextdoor':            v('nd_name'),
+    'Podcast Name':        v('pod_name'),
+    'Podcast Platform':    v('pod_platform'),
+    'Other Platforms':     v('other_platforms'),
+    'Who Has Access':      v('access_who'),
+    'Posting Setup':       r('posting'),
+    'Scheduling Tool':     v('sched_tool'),
+    'Blog Status':         r('blog'),
+    'Blog URL':            v('blog_url'),
+    'Blog Frequency':      v('blog_freq'),
+    'Blog Platform':       v('blog_platform'),
+    'Top Blog Posts':      v('blog_top'),
+    'Email List Status':   r('email_list'),
+    'Email Platform':      v('email_platform'),
+    'Email List Size':     v('email_size'),
+    'Email Frequency':     v('email_freq'),
+    'Newsletter Name':     v('email_name'),
+    'On-Camera Comfort':   r('camera'),
+    'Video Style':         r('vid_style'),
+    'Video Editing Tool':  v('vid_edit'),
+    'Photo Style':         v('photo_style'),
+    'Content Library':     v('content_library'),
+    'Asset Storage':       v('asset_storage'),
+    'Persona 1 Name':      v('p1_name'),
+    'Persona 1 Age':       v('p1_age'),
+    'Persona 1 Gender':    v('p1_gender'),
+    'Persona 1 Income':    v('p1_income'),
+    'Persona 1 Situation': v('p1_job'),
+    'Persona 1 Pain Points':v('p1_pain'),
+    'Persona 1 Goals':     v('p1_goals'),
+    'Persona 1 Objections':v('p1_objections'),
+    'Persona 1 Online':    v('p1_online'),
+    'Persona 2 Name':      v('p2_name'),
+    'Persona 2 Age':       v('p2_age'),
+    'Persona 2 Description':v('p2_desc'),
+    'Competitors':         v('competitors'),
+    'Competitor Strengths':v('comp_good'),
+    'Competitive Gaps':    v('comp_gaps'),
+    'CRM':                 v('tool_crm'),
+    'Email Tool':          v('tool_email'),
+    'Scheduling Tool 2':   v('tool_sched'),
+    'Design Tool':         v('tool_design'),
+    'Video Edit Tool':     v('tool_video'),
+    'Recording Tool':      v('tool_record'),
+    'Website Platform':    v('tool_web'),
+    'Course Platform':     v('tool_course'),
+    'Booking Tool':        v('tool_booking'),
+    'Payment Tool':        v('tool_payment'),
+    'Project Mgmt Tool':   v('tool_pm'),
+    'AI Tools':            v('tool_ai'),
+    'DM Automation':       v('tool_dm'),
+    'YT SEO Tool':         v('tool_yt_seo'),
+    'Other Tools':         v('tool_other'),
+    'Monthly Tool Spend':  v('tool_spend'),
+    'Ad Budget':           v('ad_budget'),
+    'Topics They Love':    v('topics_love'),
+    'Topics to Avoid':     v('topics_avoid'),
+    'Preferred Formats':   checks('formats'),
+    'Formats to Avoid':    v('formats_no'),
+    'Content Wins':        v('content_wins'),
+    'Content Flops':       v('content_flops'),
+    'Inspiration Accounts':v('inspo_accounts'),
+    'Approval Required':   r('approval'),
+    'Approval Lead Time':  v('approval_time'),
+    'Compliance Notes':    v('compliance'),
+    'Primary Goal':        r('goal'),
+    'Monthly Lead Goal':   v('goal_leads'),
+    'Follower Goal':       v('goal_followers'),
+    'Revenue Goal':        v('goal_revenue'),
+    'Campaign Start Date': v('start_date'),
+    'Success at 90 Days':  v('success_90'),
+    'Success at 12 Months':v('success_12'),
+    'Hours / Week':        v('hours_week'),
+    'Best Days':           v('best_days'),
+    'Point of Contact':    v('poc'),
+    'Preferred Comms':     r('comms'),
+    'Meeting Cadence':     r('cadence'),
+    'Additional Notes':    v('extra_notes'),
+    'Session Goal':        v('session_goal'),
+  };
+}
+
+async function saveToSheet(data) {
+  const statusEl = document.getElementById('save-status');
+  statusEl.style.color = '#6366f1';
+  statusEl.textContent = '💾 Saving to Google Sheet...';
+  try {
+    await fetch(SHEET_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    statusEl.style.color = '#059669';
+    statusEl.textContent = '✅ Saved to Google Sheet — ' + new Date().toLocaleTimeString();
+  } catch(err) {
+    statusEl.style.color = '#dc2626';
+    statusEl.textContent = '⚠️ Could not reach Google Sheet — check your internet connection.';
+  }
 }
 </script>
 </body>
